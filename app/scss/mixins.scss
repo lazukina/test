@@ -1,0 +1,75 @@
+// @mixin container-fluid()
+// t-width% = t-wrapper / t-макет  84% = 640px / 768% = 83.3% ~ 84% (0.84)
+// d-width% = d-wrapper / d-макет   84% = 1008px / 1200% = 84%
+
+// t-width% = d-width%;              84% = 84%
+// @mixin container-fluid() {      @mixin container-fluid() {
+//   width: auto;                    width: auto;
+//   @media ($tablet-widths) {       @media ($tablet-widths) {
+//     width: t-width %;                width: 84%;
+//     max-width: d-wrapper px;         max-width: 1008px;
+//     margin: 0 auto;                  margin: 0 auto;
+//   }                                }
+// }                                }
+
+// 88% = 620px / 700% = 88.5% ~ 88% (0.88)
+// 78% = 940px / 1200% = 78.3%
+// if { t-width > d-width} than                 if { 88% > 78%} than
+// @mixin container-fluid() {                   @mixin container-fluid() {
+//   width: auto;                                 width: auto;
+//   @media ($tablet-widths) {                    @media ($tablet-widths) {
+//     width: t-width %;                             width: 88%;
+//     max-width: X px (X / t-width = d-макет);      max-width: 1056* px (1056px / 0.88 = 1200px);
+//     margin: 0 auto;                               margin: 0 auto;
+//   }                                            }
+// }                                           }
+// *методом подстановки с 940 и в большую сторону
+
+@mixin font-face($font-family, $file-path, $weight: normal, $style: normal, $asset-pipeline: false) {
+  @font-face {
+    font-family: $font-family;
+    font-weight: $weight;
+    font-style: $style;
+
+    @if $asset-pipeline == true {
+      src: font-url("#{$file-path}.eot");
+      src: font-url("#{$file-path}.eot?#iefix") format("embedded-opentype"), font-url("#{$file-path}.woff") format("woff"), font-url("#{$file-path}.ttf") format("truetype");
+    }
+    @else {
+      src: url("#{$file-path}.eot");
+      src: url("#{$file-path}.eot?#iefix") format("embedded-opentype"), url("#{$file-path}.woff") format("woff"), url("#{$file-path}.ttf") format("truetype");
+    }
+  }
+}
+
+@mixin clearfix() {
+  &::after {
+    content: "";
+
+    display: table;
+    clear: both;
+  }
+}
+
+@mixin container() {
+  width: 280px;
+  margin: 0 auto;
+
+  @media ($tablet) {
+    width: 620px;
+  }
+
+  @media ($desktop) {
+    width: 940px;
+  }
+}
+
+@mixin container-fluid() {
+  width: auto;
+
+  @media ($tablet) {
+    width: 88%;
+    max-width: 1056px;
+    margin: 0 auto;
+  }
+}
